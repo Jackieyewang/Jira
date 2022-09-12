@@ -1,10 +1,14 @@
 import "./App.css";
-import { ProjectListScreen } from "screens/project-lists";
+// import { ProjectListScreen } from "screens/project-lists";
+import { LoginScreen } from "screens/login ";
+// import { TsReactTest } from "TsReactTest";
 
 function App() {
   return (
     <div className="App">
-      <ProjectListScreen />
+      <LoginScreen />
+      {/* <ProjectListScreen /> */}
+      {/* <TsReactTest /> */}
     </div>
   );
 }
