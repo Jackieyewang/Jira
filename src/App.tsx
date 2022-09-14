@@ -1,12 +1,15 @@
+import { AuthenticatedApp } from "authenticated";
+import { useAuth } from "context/auth-context";
+import { UnauthenticatedApp } from "unauthenticated-app";
 import "./App.css";
 // import { ProjectListScreen } from "screens/project-lists";
-import { LoginScreen } from "screens/login ";
 // import { TsReactTest } from "TsReactTest";
 
 function App() {
+  const { user } = useAuth();
   return (
     <div className="App">
-      <LoginScreen />
+      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
       {/* <ProjectListScreen /> */}
       {/* <TsReactTest /> */}
     </div>
