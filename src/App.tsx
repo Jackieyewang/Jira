@@ -10,8 +10,6 @@ function App() {
   return (
     <div className="App">
       {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
-      {/* <ProjectListScreen /> */}
-      {/* <TsReactTest /> */}
     </div>
   );
 }
