@@ -43,7 +43,7 @@ export const LoginScreen = () => {
       </Form.Item>
       <Form.Item
         name={"password"}
-        rules={[{ required: true, message: "请输入用户名" }]}
+        rules={[{ required: true, message: "请输入密码" }]}
       >
         <Input placeholder="密码" type="password" id="password" />
       </Form.Item>
