@@ -2,6 +2,7 @@ import { useAuth } from "context/auth-context";
 // import React, { FormEvent } from "react";
 import { Form, Input } from "antd";
 import { LongButton } from "unauthenticated-app";
+import { useAsync } from "utils/use-async";
 // const apiUrl = process.env.REACT_APP_API_URL;
 
 // const login = (param: { username: string; password: string }) => {
@@ -17,23 +18,34 @@ import { LongButton } from "unauthenticated-app";
 //   });
 // };
 
-export const RegisterScreen = () => {
+export const RegisterScreen = ({
+  onError,
+}: {
+  onError: (error: Error) => void;
+}) => {
   const { register } = useAuth();
-  const handelSubmit = (values: { username: string; password: string }) => {
-    // e.preventDefault();
-    // const username = (e.currentTarget.elements[0] as HTMLInputElement).value;
-    // const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
-    // console.log(username, password);
-    register(values);
+  const { run, isLoading } = useAsync();
+  const handelSubmit = async ({
+    cpasword,
+    ...values
+  }: {
+    username: string;
+    password: string;
+    cpasword: string;
+  }) => {
+    if (cpasword !== values.password) {
+      onError(new Error("请确保俩次输入的密码相同"));
+      return;
+    }
+    try {
+      await run(register(values));
+    } catch (e) {
+      onError(e as Error);
+    }
   };
 
   return (
     <Form onFinish={handelSubmit}>
-      {/* {user ? (
-        <div>
-          登录成功， 用户名 {user?.name} token: {user?.token}
-        </div>
-      ) : null} */}
       <Form.Item
         name={"username"}
         rules={[{ required: true, message: "请输入用户名" }]}
@@ -42,12 +54,18 @@ export const RegisterScreen = () => {
       </Form.Item>
       <Form.Item
         name={"password"}
-        rules={[{ required: true, message: "请输入用户名" }]}
+        rules={[{ required: true, message: "请输入密码" }]}
       >
         <Input placeholder="密码" type="password" id="password" />
       </Form.Item>
+      <Form.Item
+        name={"cpassword"}
+        rules={[{ required: true, message: "请重复密码" }]}
+      >
+        <Input placeholder="确认密码" type="password" id="cpassword" />
+      </Form.Item>
       <Form.Item>
-        <LongButton htmlType={"submit"} type="primary">
+        <LongButton loading={isLoading} htmlType={"submit"} type="primary">
           注册
         </LongButton>
       </Form.Item>
